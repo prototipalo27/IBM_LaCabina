@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tótem Interactivo</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="menu-container" id="menu">
+        <h1>Menú Principal</h1>
+        <div class="menu-row" onclick="showVideo('video1')">
+            <img src="icon1.png" alt="Video 1" class="menu-icon">
+            <div class="menu-text">Video 1</div>
+        </div>
+        <div class="menu-row" onclick="showVideo('video2')">
+            <img src="icon2.png" alt="Video 2" class="menu-icon">
+            <div class="menu-text">Video 2</div>
+        </div>
+        <div class="menu-row" onclick="showVideo('video3')">
+            <img src="icon3.png" alt="Video 3" class="menu-icon">
+            <div class="menu-text">Video 3</div>
+        </div>
+        <div class="menu-row" onclick="showVideo('video4')">
+            <img src="icon4.png" alt="Video 4" class="menu-icon">
+            <div class="menu-text">Video 4</div>
+        </div>
+        <div class="menu-row" onclick="openWeb('https://www.example1.com')">
+            <img src="icon5.png" alt="Web 1" class="menu-icon">
+            <div class="menu-text">Web 1</div>
+        </div>
+        <div class="menu-row" onclick="openWeb('https://www.example2.com')">
+            <img src="icon6.png" alt="Web 2" class="menu-icon">
+            <div class="menu-text">Web 2</div>
+        </div>
+        <div class="menu-row" onclick="openWeb('https://www.example3.com')">
+            <img src="icon7.png" alt="Web 3" class="menu-icon">
+            <div class="menu-text">Web 3</div>
+        </div>
+        <div class="menu-row" onclick="openWeb('https://www.example4.com')">
+            <img src="icon8.png" alt="Web 4" class="menu-icon">
+            <div class="menu-text">Web 4</div>
+        </div>
+    </div>
+
+    <div class="video-container" id="videoContainer" style="display:none;">
+        <button onclick="goBack()">Regresar al Menú</button>
+        <video id="videoPlayer" width="600" controls>
+            <source id="videoSource" src="" type="video/mp4">
+            Tu navegador no soporta el elemento de video.
+        </video>
+    </div>
+
+    <iframe id="webFrame" style="display:none; width:100%; height:500px;"></iframe>
+
+    <script src="js/scripts.js"></script>
+    <script>
+        function showVideo(videoSrc) {
+            document.querySelector('.menu-container').classList.add('hidden');
+            document.getElementById('video-container').classList.remove('hidden');
+            document.getElementById('video-player').src = videoSrc;
+        }
+
+        function showMenu() {
+            document.querySelector('.menu-container').classList.remove('hidden');
+            document.getElementById('video-container').classList.add('hidden');
+            document.getElementById('video-player').src = '';
+        }
+
+        function openWeb(url) {
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>

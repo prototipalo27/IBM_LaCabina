@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tótem Interactivo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('/Users/manueldelavina/Juego/IBM -La cabina/1x/home.png'); /* Ruta al Home */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Botones del menú */
+        .boton {
+            position: absolute;
+            background: rgba(0, 0, 0, 0); /* Fondo transparente */
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Coordenadas de los botones */
+        #abogacia_estado { top: 178px; left: 81px; width: 648px; height: 110px; }
+        #sevillafc { top: 299px; left: 81px; width: 648px; height: 110px; }
+        #operarios_industria { top: 417px; left: 81px; width: 648px; height: 110px; }
+        #media_enritchment { top: 536px; left: 81px; width: 648px; height: 110px; }
+        #gobernance { top: 178px; left: 740px; width: 648px; height: 110px; }
+        #ai { top: 299px; left: 740px; width: 648px; height: 110px; }
+        #fusionhci { top: 417px; left: 740px; width: 648px; height: 110px; }
+        #shark_x { top: 536px; left: 740px; width: 648px; height: 110px; }
+
+        /* Contenedor para el loader */
+        #loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9); /* Fondo semitransparente */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998; /* Justo debajo del iframe */
+            display: none; /* Oculto inicialmente */
+        }
+
+        /* Estilo del spinner */
+        .spinner {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Estilo para el iframe */
+        #iframe-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 9999; /* Coloca el iframe sobre todo */
+        }
+
+        /* Botón de regreso al Home (ícono de casa) */
+        #home-icon {
+            position: fixed;
+            top: 0px;
+            left: 1286px;
+            width: 180px;
+            height: 100px;
+            background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semitransparente */
+            z-index: 10000; /* Coloca el ícono sobre todo */
+            display: none; /* Oculto inicialmente */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Ícono de la casita */
+        #home-icon img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Botones interactivos -->
+    <button id="abogacia_estado" class="boton" onclick="loadImage('/Users/manueldelavina/Juego/IBM -La cabina/resources/abogacia_estadohome.png')"></button>
+    <button id="sevillafc" class="boton" onclick="loadImage('/Users/manueldelavina/Juego/IBM -La cabina/resources/sevillafchome.png')"></button>
+    <button id="operarios_industria" class="boton" onclick="loadImage('/Users/manueldelavina/Juego/IBM -La cabina/resources/operarios_industriahome.png')"></button>
+    <button id="media_enritchment" class="boton" onclick="loadImage('/Users/manueldelavina/Juego/IBM -La cabina/resources/media_enritchmenthome.png')"></button>
+    <button id="gobernance" class="boton" onclick="loadImage('/Users/manueldelavina/Juego/IBM -La cabina/resources/gobernancehome.png')"></button>
+    <button id="ai" class="boton" onclick="loadImage('/Users/manueldelavina/Juego/IBM -La cabina/resources/aihome.png')"></button>
+    <button id="fusionhci" class="boton" onclick="openLink('https://www.ibm.com/demos/it-infrastructure/IBM_Fusion/index.html')"></button>
+    <button id="shark_x" class="boton" onclick="loadImage('/Users/manueldelavina/Juego/IBM -La cabina/resources/shark_xhome.png')"></button>
+
+    <!-- Contenedor del loader -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Área superior derecha con la casita -->
+    <div id="home-icon">
+        <img src="/Users/manueldelavina/Juego/IBM -La cabina/resources/house.png" alt="Home" onclick="goHome()">
+    </div>
+
+    <script>
+        /* Función para cargar imágenes dinámicas */
+        function loadImage(imagePath) {
+            const content = document.getElementById("dynamic-content");
+            content.style.backgroundImage = `url('${imagePath}')`;
+            content.style.display = "block"; // Muestra el contenido dinámico
+        }
+
+        /* Función para abrir un enlace en iframe */
+        function openLink(url) {
+            // Mostrar el loader mientras se carga el iframe
+            const loader = document.getElementById("loader");
+            const homeIcon = document.getElementById("home-icon");
+
+            loader.style.display = "flex";
+
+            // Crear el iframe dinámicamente
+            const iframe = document.createElement("iframe");
+            iframe.id = "iframe-content";
+            iframe.src = url;
+
+            // Cuando el iframe cargue, ocultar el loader y mostrar el área superior
+            iframe.onload = function () {
+                loader.style.display = "none"; // Oculta el loader
+                homeIcon.style.display = "flex"; // Muestra el área superior derecha
+            };
+
+            // Agregar los elementos al DOM
+            document.body.appendChild(iframe);
+        }
+
+        /* Función para regresar al Home */
+        function goHome() {
+            const iframe = document.getElementById("iframe-content");
+            const loader = document.getElementById("loader");
+            const homeIcon = document.getElementById("home-icon");
+
+            if (iframe) {
+                document.body.removeChild(iframe); // Elimina el iframe
+            }
+            loader.style.display = "none"; // Oculta el loader
+            homeIcon.style.display = "none"; // Oculta el área de la casita
+        }
+    </script>
+</body>
+</html>
